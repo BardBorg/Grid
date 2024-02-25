@@ -24,20 +24,7 @@
         $: kolejne=count
         $: dlugosc=length
         // let grid;
-   function left(){
-
-
-
-
-   }
-   function right(){
-    
-    
-    count+=10;
-    length+=10;
-    
-
-   }
+   
    
 let dataGrid=[];
   let grid;
@@ -49,18 +36,9 @@ let dataGrid=[];
             const data = await res.json();
             // console.log(data)
             const results=data.results
-            // message = data.message;
-            // const data2=JSON.stringify(data);
-            // const json=JSON.parse(data);
-            // name=data[0].Name;
-            // ids=data[0].ID;
-            // email=data[0].Email;
-            // role=data[0].Role;
-            // ids=data.ID;
-            // email=data.Email;
-            // role=data.Role;
            
-            // userData[0] = { id: ids, name: name, email: email, role: role }; // Update the first element of the array
+           
+            
             
         
             for (let i=0; i<18;i++){
@@ -164,13 +142,6 @@ let dataGrid=[];
   }
         let gridContainer;
       
-        // onMount(() => {
- 
-        // });
-
-      //  console.log(value)
-
-//       
 
 
 

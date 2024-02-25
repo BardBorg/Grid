@@ -15,11 +15,11 @@
         let name;
         let email;
         let role;
-        let dataGrid=[];
+        
         let value;
         let length=10;
         let count=0;
-      
+        let test="test";
 
         $: kolejne=count
         $: dlugosc=length
@@ -38,14 +38,12 @@
     
 
    }
-   function hide(){
-
-   }
-
+   
+let dataGrid=[];
   let grid;
 
    onMount(async () => {
-       
+    
         // try {
             const res = await fetch('http://127.0.0.1:5000/api/data');
             const data = await res.json();
@@ -64,8 +62,8 @@
            
             // userData[0] = { id: ids, name: name, email: email, role: role }; // Update the first element of the array
             
-            
-            for (let i=0; i<10;i++){
+        
+            for (let i=0; i<18;i++){
               dataGrid.push({ 
                     email: results[i].Email, 
                     id: results[i].ID, 
@@ -96,6 +94,11 @@
         data: dataGrid,
         sort: true,
         search: true,
+        pagination: {
+          enabled: true,
+          limit: 5,
+          summary: true
+        },
             style: {
     table: {
       border: '3px solid #ccc'
@@ -121,19 +124,23 @@
         // }
 
 
-//         grid.config.store.subscribe(function (state) {
-//   console.log('checkbox updated', state.rowSelection);
-// })
-
-// grid.config.store.subscribe(function (state) {
-//   console.log('checkbox updated', state.rowSelection);
-// })
+//         
 
 
 
-
-
+   
+        
     });
+
+    $: console.log(dataGrid);
+
+
+    function refresh(){
+      
+      dataGrid = dataGrid.filter((item, index) => index !== 2);
+      
+    }
+ 
 
     function read(){
     // grid.on('ready', () => {
@@ -147,10 +154,11 @@
 
    
  function search(){
-  // console.log(value)
-  const cellValue = dataGrid[3];
-  // // const cellValue=row.cells[0].data;
-  console.log(cellValue);
+  // console.log(dataGrid)
+  // const cellValue = dataGrid[3];
+  // // // const cellValue=row.cells[0].data;
+  // console.log(dataGrid[3].name);
+  // dataGrid=dataGrid[3]
   
 
   }
@@ -162,26 +170,14 @@
 
       //  console.log(value)
 
-//        grid.on('ready', () => {
-//   // find the plugin with the give plugin ID
-//   const checkboxPlugin = grid.config.plugin.get('selectRow');
-//   // read the selected rows from the plugin's store
-//   console.log('selected rows:', checkboxPlugin.props.store.state);
-// })
+//       
 
 
-function readSelectedRows() {
-  // const checkboxPlugin = grid.config.plugin.get('Checkbox')
-  //         // read the selected rows from the plugin's store
-  //         checkboxPlugin.props.store.on('updated', function (state) {
-  //           console.log('checkbox updated', state);
-  //         });
 
- //Ensure grid instance is available
-//  const selectedData = grid.config.plugin.get('Checkbox').props.store.state.selectedRows;
-//     console.log('Selected rows:', selectedData);
 
-  }
+ 
+
+  
 
 //   grid.on('headerClick', (column) => {    //To powoduje niewyswietlanie gridu. Sluzy do interakcji z kolumnami.
 //     if (column.id === 'myColumnId') {
@@ -206,7 +202,7 @@ function readSelectedRows() {
       
       
  <!-- <h1>{name}</h1> -->
- <!-- <button on:click={left}>Strona do tyłu</button> -->
+ <button class="bg-white-950" on:click={refresh}>Filter</button>
 <button class="bg-green-950" on:click={search} >Get cell value</button>
 <button class="bg-red-950" id="read-selected-rows-btn" on:click={read}>Pokaż wybrany wiersz</button>
 

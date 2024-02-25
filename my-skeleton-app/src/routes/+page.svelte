@@ -83,9 +83,9 @@
             name: 'Select',
             plugin: {
               component: RowSelection, // Make sure to import RowSelection
-              // props: {
-              //   id: (row) => row.cell(3).data, // Assuming ID is the unique identifier, rozwiazanie do grimora
-              // },
+              props: {
+                id: (row) => row.cell(3).data, // Assuming ID is the unique identifier, rozwiazanie do grimora
+              },
             },
           },
           'Name',
@@ -146,10 +146,14 @@
 }
 
    
-//  function search(){
-//   console.log(value)
+ function search(){
+  // console.log(value)
+  const cellValue = dataGrid[3];
+  // // const cellValue=row.cells[0].data;
+  console.log(cellValue);
+  
 
-//   }
+  }
         let gridContainer;
       
         // onMount(() => {
@@ -191,7 +195,7 @@ function readSelectedRows() {
       <div class="size-max  relative" bind:this={gridContainer}>
       
       </div>
-      <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+      
           <!-- <form class="w-32  m-auto w-1/2 " id="Search" on:keyup={search} >
           <Search bind:value class="text-black absolute"/>
           <p></p>  
@@ -202,8 +206,8 @@ function readSelectedRows() {
       
       
  <!-- <h1>{name}</h1> -->
- <button on:click={left}>Strona do tyłu</button>
-<button on:click={right} >Strona do przodu</button>
+ <!-- <button on:click={left}>Strona do tyłu</button> -->
+<button class="bg-green-950" on:click={search} >Get cell value</button>
 <button class="bg-red-950" id="read-selected-rows-btn" on:click={read}>Pokaż wybrany wiersz</button>
 
       

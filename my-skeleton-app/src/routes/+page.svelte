@@ -154,11 +154,11 @@ let dataGrid=[];
 
    
  function search(){
-  // console.log(dataGrid)
+ 
   // const cellValue = dataGrid[3];
   // // // const cellValue=row.cells[0].data;
-  // console.log(dataGrid[3].name);
-  // dataGrid=dataGrid[3]
+  
+ 
   
 
   }

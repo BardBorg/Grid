@@ -1,56 +1,109 @@
-<!-- <script>
+<script lang="ts">
+  // import myData from '$site/data/data'
+  import { DataHandler, Datatable, Th, ThFilter, type State } from '@vincjo/datatables/remote'
   import { onMount } from 'svelte';
-  import { Grid } from "gridjs";
-  import "gridjs/dist/theme/mermaid.css";
-  import { RowSelection } from "gridjs/plugins/selection";
-  import { faker } from '@faker-js/faker';
+  import { writable } from 'svelte/store';
 
-let gridContainer2;
+  import { reload } from './api'
+    export let data:{ results: any[], total: number}
 
-  const grid = new Grid({
-  columns: [
-      {
-        id: 'selectRow',
-        name: 'Select',
-        // select all rows by default!
-        data: () => true, 
-        plugin: {
-          component: RowSelection
-        }
-      },
-      { 
-        name: 'Name',
-        formatter: (cell) => `Name: ${cell}`
-      },
-      'Email',
-  ],
-  sort: true,
-  data: [
-    // Replace these with your actual data
-    ["John Doe", "john.doe@example.com"],
-    ["Jane Smith", "jane.smith@example.com"],
-    ["Alice Johnson", "alice.johnson@example.com"],
-    ["Bob Brown", "bob.brown@example.com"],
-    ["Charlie Davis", "charlie.davis@example.com"]
-  ],
-  
-}).render(gridContainer2);
- 
-// grid.on('ready', () => {
-//   // find the plugin with the give plugin ID
-//   const checkboxPlugin = grid.config.plugin.get('selectRow');
-//   // read the selected rows from the plugin's store
-//   console.log('selected rows:', checkboxPlugin.props.store.state);
-//   console.log("read")
-// })
+    const handler = new DataHandler(data.results, { rowsPerPage: 20, totalRows: data.total })
+    const rows = handler.getRows()
+
+    handler.onChange((state: State) => reload(state) )
+
+
+  // const handler = new DataHandler([], {rowsPerPage: 10})
+  // // const rows = handler.getRows()
+  // const selected = handler.getSelected()
+  // const isAllSelected = handler.isAllSelected()
+
+  // let handler;
+  // const rows = writable([]);
+
+  // onMount(async () => {
+    
+  //   // try {
+  //       const res = await fetch('http://127.0.0.1:5000/api/data');
+  //       const data = await res.json();
+
 
       
+
+  //       // console.log(data)
+  //       const results=data.results
+  //     //   handler.setData(data.results);  // Update the DataHandler with the fetched data
+  //     // rows.set(handler.getRows());
+       
+        
+        
+  //       let dataGrid=[];
+  //       for (let i=0; i<18;i++){
+  //         dataGrid.push({ 
+  //               email: results[i].Email, 
+  //               id: results[i].ID, 
+  //               name: results[i].Name, 
+  //               role: results[i].Role 
+  //           });
+                                                    
+  //       }
+
+  //       rows.set(dataGrid);
+  //     });
+
+
+
+
+
+// const rows=writable(dataGrid);
+
+
 </script>
 
-<div class="table-container">
-        
-  <div class="size-max  relative" bind:this={gridContainer2}>
-  
-  </div>
 
-  </div> -->
+
+<Datatable {handler}>
+    <table>
+        <thead>
+            <tr>
+                <Th {handler} orderBy="ID">First Name</Th>
+                <Th {handler} orderBy="Email">Last Name</Th>
+                <Th {handler} orderBy="Name">Email</Th>
+                <Th {handler} orderBy="Role">Role</Th>
+            </tr>
+            <tr>
+                <ThFilter {handler} filterBy="ID"/>
+                <ThFilter {handler} filterBy="Email" />
+                <ThFilter {handler} filterBy="Name"/>
+                <ThFilter {handler} filterBy="Role"/>
+            </tr>
+        </thead>
+        <tbody>
+            {#each $rows as row}
+                <tr>
+                    <td>{row.ID}</td>
+                    <td>{row.Email}</td>
+                    <td>{row.Name}</td>
+                    <td>{row.Role}</td>
+
+                </tr>
+            {/each}
+        </tbody>
+    </table>
+</Datatable>
+
+<style>
+    thead {
+        background: #fff;
+    }
+    tbody td {
+        border: 1px solid #f5f5f5;
+        padding: 4px 20px;
+    }
+    tbody tr {
+        transition: all, 0.2s;
+    }
+    tbody tr:hover {
+        background: #f5f5f5;
+    }
+</style>

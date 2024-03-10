@@ -11,14 +11,22 @@ export const reload = async (state: State) => {
     return json.results
 }
 
-const getParams = ({ pageNumber, rowsPerPage }: State) => {
+const getParams = (state: State) => {
+    const { pageNumber, rowsPerPage } = state
 
-    let params = `_page=${pageNumber}`
+    let params = `page=${pageNumber}`
 
     if (rowsPerPage) {
-        params += `&_limit=${rowsPerPage}`
+        params += `&limit=${rowsPerPage}`
     }
-  
-
+    // if (sort) {
+    //     params += `&_sort=${sort.orderBy}&_order=${sort.direction}`
+    // }
+    // if (filters) {
+    //     params += filters.map(({ filterBy, value }) => `&${filterBy}=${value}`).join('')
+    // }
+    // if (search) {
+    //     params += `&q=${search}`
+    // }
     return params
 }

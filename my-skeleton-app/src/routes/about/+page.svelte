@@ -3,15 +3,19 @@
   import { DataHandler, Datatable, Th, ThFilter, type State } from '@vincjo/datatables/remote'
   import { onMount } from 'svelte';
   import { writable } from 'svelte/store';
+  import Pagination from './pagination.svelte';
 
   import { reload } from './api'
     export let data:{ results: any[], total: number}
-
-    const handler = new DataHandler(data.results, { rowsPerPage: 20, totalRows: data.total })
+    
+    const handler = new DataHandler(data.results, { rowsPerPage: 10, totalRows: data.total })
     const rows = handler.getRows()
-
+    const selected = handler.getSelected()
+   
     handler.onChange((state: State) => reload(state) )
 
+
+    
 
   // const handler = new DataHandler([], {rowsPerPage: 10})
   // // const rows = handler.getRows()
@@ -80,7 +84,12 @@
         </thead>
         <tbody>
             {#each $rows as row}
-                <tr>
+                <tr class:active={$selected.includes(row.ID)}>
+                    <td> <input type="checkbox" 
+                        on:click={() => handler.select(row.ID)} 
+                        checked={$selected.includes(row.ID)}
+                    /></td>
+                    <!-- <td>{row.ID}</td> -->
                     <td>{row.ID}</td>
                     <td>{row.Email}</td>
                     <td>{row.Name}</td>
@@ -92,18 +101,30 @@
     </table>
 </Datatable>
 
+
+
+
 <style>
     thead {
         background: #fff;
     }
     tbody td {
         border: 1px solid #f5f5f5;
-        padding: 4px 20px;
+        padding: 2px 16px;
     }
     tbody tr {
         transition: all, 0.2s;
     }
     tbody tr:hover {
-        background: #f5f5f5;
+        background: #fafafa;
+    }
+    b {
+        color: var(--r-primary);
+        font-weight: normal;
+        line-height: 16px;
+        white-space:break-spaces;
+    }
+    span {
+        padding-left: 8px;
     }
 </style>

@@ -12,7 +12,7 @@ export const reload = async (state: State) => {
 }
 
 const getParams = (state: State) => {
-    const { pageNumber, rowsPerPage } = state
+    const { pageNumber, rowsPerPage, search } = state
 
     let params = `page=${pageNumber}`
 
@@ -25,8 +25,8 @@ const getParams = (state: State) => {
     // if (filters) {
     //     params += filters.map(({ filterBy, value }) => `&${filterBy}=${value}`).join('')
     // }
-    // if (search) {
-    //     params += `&q=${search}`
-    // }
+    if (search) {
+        params += `&q=${search}`
+    }
     return params
 }
